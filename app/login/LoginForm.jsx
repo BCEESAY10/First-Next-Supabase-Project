@@ -5,7 +5,7 @@ import Link from 'next/link';
 import React, { useRef, useState } from 'react';
 
 
-export default function SignUpForm (props){
+export default function LoginForm (props){
   const [state, setState ] = useState({})
   const formElement = useRef()
 
@@ -21,6 +21,7 @@ export default function SignUpForm (props){
         alert("Your account has been created.")
         form.reset()
         setState({})
+        location.reload()
       } else {
         alert("Invalid form-data")
         form.reportValidity()
@@ -44,37 +45,7 @@ export default function SignUpForm (props){
 
   return (
     <form ref={formElement} onSubmit={handleSubmit} className='max-w-[400px] w-full space-y-4 mx-auto mt-6 block'> 
-    <h3 className='font-semibold text-xl text-center border-b mb-4 p-2'>Register Now</h3>
-
-    <div className="grid gap-1 w-full">
-      <label>First name</label>
-      <input
-      required
-      minLength={3}
-      maxLength={15}
-        type="text"
-        className="p-2 rounded-xl"
-        placeholder="First name"
-        name="firstName"
-        defaultValue={state.firstName}
-        onChange={handleInputChange}
-      />
-    </div>
-
-    <div className="grid gap-1 w-full">
-      <label>Last name</label>
-      <input
-      required
-      minLength={3}
-      maxLength={15}
-        type="text"
-        className="p-2 rounded-xl"
-        placeholder="Last name"
-        name="lastName"
-        defaultValue={state.lastName}
-        onChange={handleInputChange}
-      />
-    </div>
+    <h3 className='font-semibold text-xl text-center border-b mb-4 p-2'>Welcome Back</h3>
 
     <div className="grid gap-1 w-full">
       <label>Email address</label>
@@ -102,12 +73,12 @@ export default function SignUpForm (props){
 
     <div className="flex justify-center items-center">
       <button type="submit" className="p-2 px-4 rounded-full mx-auto bg-white text-black">
-        Sign Up
+        Login
       </button>
     </div>
     <p className="forgot-password text-center text-black w-full">
 
-      Already registered? <Link href="/login" className='hover:underline underline-offset-4 transition text-red-600'>Sign In</Link>
+      Not registered? <Link href="/signup" className='hover:underline underline-offset-4 transition text-red-600'>Signup</Link>
     </p>
   </form>
   )

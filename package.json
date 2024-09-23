@@ -2,13 +2,20 @@
   "name": "sign-up-page",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "bamfa": "next dev -p 8000",
+    "dev": "next dev -p 8000",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "migrate": "drizzle-kit generate",
+    "migrate-to-db": "node db/migrate.js"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.6.0",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "bcrypt": "^5.1.1",
     "drizzle-orm": "^0.33.0",
     "next": "14.2.10",
     "postgres": "^3.4.4",
@@ -17,6 +24,7 @@
   },
   "devDependencies": {
     "@types/react": "18.3.5",
+    "drizzle-kit": "^0.24.2",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "5.6.2"

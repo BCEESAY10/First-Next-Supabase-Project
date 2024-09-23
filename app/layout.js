@@ -1,5 +1,8 @@
 import localFont from "next/font/local";
 import "./globals.css";
+import { cookies } from "next/headers";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -18,12 +21,29 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  const logged_user = cookies().get("sid")?.value
+  
+  function parseUser(){
+    if (!logged_user) return undefined
+      return JSON.parse(logged_user)
+  }
+
+  const user = parseUser()
+
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body>
+        <nav className="p-4 shadow bg-white text-black mb-4 flex justify-between items-center">
+        <span>{user ? user.firstName + " " + user.lastName : "Unknown User"}</span>
+          {user && (
+            <button className="text-black">
+              <FontAwesomeIcon icon={faSignOutAlt} />
+            </button>
+          )}
+        </nav>
+        <main>
+         {children}
+        </main>
       </body>
     </html>
   );
