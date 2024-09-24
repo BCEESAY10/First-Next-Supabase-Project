@@ -12,11 +12,9 @@
     "migrate-to-db": "node db/migrate.js"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.6.0",
-    "@fortawesome/free-solid-svg-icons": "^6.6.0",
-    "@fortawesome/react-fontawesome": "^0.2.2",
     "bcrypt": "^5.1.1",
     "drizzle-orm": "^0.33.0",
+    "lucide-react": "^0.445.0",
     "next": "14.2.10",
     "postgres": "^3.4.4",
     "react": "^18",

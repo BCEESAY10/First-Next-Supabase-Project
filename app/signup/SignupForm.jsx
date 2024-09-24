@@ -12,13 +12,13 @@ export default function SignUpForm (props){
   async function handleSubmit(event){
     event.preventDefault()
 
-    // HTML for element
+    // HTML form element
     const form = formElement.current
     
     try {
       if (form.checkValidity()) {
         await props.submitForm(state)
-        alert("Your account has been created.")
+        alert("You have registered successfully.")
         form.reset()
         setState({})
       } else {

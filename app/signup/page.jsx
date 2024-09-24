@@ -27,7 +27,7 @@ export default function page() {
 
     const logged_user = cookies().get("sid")?.value
   
-    if(logged_user) redirect("/")
+    if(logged_user) redirect("/chatbot")
 
 
   return (

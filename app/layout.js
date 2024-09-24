@@ -1,19 +1,7 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import { cookies } from "next/headers";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
-
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+import LogoutBtn from "./../components/LogoutBtn";
 
 export const metadata = {
   title: "Create Next App",
@@ -21,29 +9,29 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  const logged_user = cookies().get("sid")?.value
-  
-  function parseUser(){
-    if (!logged_user) return undefined
-      return JSON.parse(logged_user)
+  const logged_user = cookies().get("sid")?.value;
+
+  function parseUser() {
+    if (!logged_user) return undefined;
+    return JSON.parse(logged_user);
   }
 
-  const user = parseUser()
+  const user = parseUser();
 
   return (
     <html lang="en">
       <body>
         <nav className="p-4 shadow bg-white text-black mb-4 flex justify-between items-center">
-        <span>{user ? user.firstName + " " + user.lastName : "Unknown User"}</span>
+          <span>
+            {user ? user.firstName + " " + user.lastName : "Unknown User"}
+          </span>
           {user && (
-            <button className="text-black">
-              <FontAwesomeIcon icon={faSignOutAlt} />
-            </button>
+            <>
+              <LogoutBtn />
+            </>
           )}
         </nav>
-        <main>
-         {children}
-        </main>
+        <main>{children}</main>
       </body>
     </html>
   );
