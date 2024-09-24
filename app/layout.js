@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
       <body>
         <nav className="p-4 shadow bg-white text-black mb-4 flex justify-between items-center">
           <span>
-            {user ? user.firstName + " " + user.lastName : "Unknown User"}
+            {user ? user.firstName + " " + user.lastName : "To use our amazing chatbot, please sign up."}
           </span>
           {user && (
             <>
