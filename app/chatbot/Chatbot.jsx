@@ -1,5 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef} from "react";
+import { Send } from 'lucide-react';
 
 let mounted = false
 
@@ -7,6 +8,14 @@ export default function Chatbot() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const chatContainerRef = useRef(null);
+
+  // Scroll to the bottom whenever messages change
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   async function handleSendMessage() {
     if (input.trim()) {
@@ -32,14 +41,14 @@ export default function Chatbot() {
 
         setMessages((prevMessages) => [
           ...prevMessages,
-          { user: "Chatbot", text: data.message }, 
+          { user: "Jula-Bot", text: data.message }, 
         ]);
         return  
       } catch (error) {
         console.error("Error fetching chatbot response:", error);
         setMessages((prevMessages) => [
           ...prevMessages,
-          { user: "Chatbot", text: "Oops! Something went wrong." },
+          { user: "Jula-Bot", text: "Oops! Something went wrong." },
         ]);
       } finally {
         setLoading(false); // Turn off the loading state
@@ -71,7 +80,7 @@ export default function Chatbot() {
           Chatbot
         </div>
 
-        <div className=" block px-4 h-[550px] overflow-clip overflow-y-auto ">
+        <div className=" block px-4 h-[550px] overflow-clip overflow-y-auto " ref={chatContainerRef}>
           {messages.map((msg, index) => (
             <div
               key={index}
@@ -106,7 +115,7 @@ export default function Chatbot() {
           onClick={handleSendMessage}
           disabled={loading} 
         >
-          {loading ? "Sending..." : "Send"}
+          {loading ? "..." : <Send />}
         </button>
       </div>
     </div>
