@@ -19,6 +19,17 @@ export default function LoginForm(props) {
         alert("Welcome!");
         form.reset();
         setState({});
+
+
+        const url = new URL(location.href)
+        
+        if (url.searchParams.has("next"))
+        {
+          const nextPath = url.searchParams.get("next")
+          location.href = nextPath
+          return 
+        }
+
         location.reload();
       } else {
         alert("Invalid form-data");

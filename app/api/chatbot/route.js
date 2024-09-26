@@ -5,7 +5,9 @@ export async function POST(req, res){
     try{
         const genAi = new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
 
-        const model = genAi.getGenerativeModel({model: "gemini-1.5-flash"})
+        const model = genAi.getGenerativeModel({model: "gemini-1.5-flash", generationConfig:{
+            temperature:1.8,
+        }})
 
         const {prompt} = await req.json()
 
@@ -39,7 +41,7 @@ Unregistered users cannot access the to-do list and the chatbot. Customers can a
         
 `
 
-        const result = await model.generateContent(generalPrompt)
+        const result = await model.generateContent(generalPrompt, {})
 
         const output =  result.response.text()
 

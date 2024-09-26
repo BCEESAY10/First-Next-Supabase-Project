@@ -74,6 +74,14 @@ export default function Chatbot() {
      }
   }, [messages])
 
+   // Detect Enter key press and handle message sending on larger screens
+   const handleKeyDown = (e) => {
+    const screenWidth = window.innerWidth;
+    if (e.key === "Enter" && screenWidth > 768) {
+      handleSendMessage();
+    }
+  };
+
   return (
     <div className="max-w-[400px] w-full space-y-4 mx-auto md:mt--12 mt-0 h-[calc(100svh-10px)] flex flex-col bg-gray-100 rounded-lg md:h-[calc(100vh-120px)]">
       <div className="flex-1 flex flex-col">
@@ -109,6 +117,7 @@ export default function Chatbot() {
           placeholder="Type a message..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyDown} // Listen for Enter key press
           disabled={loading} 
         />
         <button

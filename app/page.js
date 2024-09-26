@@ -1,7 +1,14 @@
 
+import { cookies } from "next/headers";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default function Home() {
+
+  const logged_user = cookies().get("sid")?.value
+  
+  if(logged_user) redirect  ("/chatbot")
+
   return (
     <div className="grid items-center justify-items-center h-[calc(100svh-80px)] p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <h2 className="text-center font-bold text-4xl text-white">
