@@ -47,13 +47,13 @@ export default function SignUpForm (props){
     <h3 className='font-semibold text-xl text-center border-b mb-4 p-2'>Register Now</h3>
 
     <div className="grid gap-1 w-full">
-      <label>First name</label>
+      <label className='mx-2'>First name</label>
       <input
       required
       minLength={3}
       maxLength={15}
         type="text"
-        className="p-2 rounded-xl"
+        className="p-2 rounded-xl mx-2"
         placeholder="First name"
         name="firstName"
         defaultValue={state.firstName}
@@ -62,13 +62,13 @@ export default function SignUpForm (props){
     </div>
 
     <div className="grid gap-1 w-full">
-      <label>Last name</label>
+      <label className='mx-2'>Last name</label>
       <input
       required
       minLength={3}
       maxLength={15}
         type="text"
-        className="p-2 rounded-xl"
+        className="p-2 rounded-xl mx-2"
         placeholder="Last name"
         name="lastName"
         defaultValue={state.lastName}
@@ -77,10 +77,10 @@ export default function SignUpForm (props){
     </div>
 
     <div className="grid gap-1 w-full">
-      <label>Email address</label>
+      <label className='mx-2'>Email address</label>
       <input
         type="email"
-        className="p-2 rounded-xl"
+        className="p-2 rounded-xl mx-2"
         placeholder="Enter email"
         name="email"
         defaultValue={state.email}
@@ -89,10 +89,10 @@ export default function SignUpForm (props){
     </div>
 
     <div className="grid gap-1 w-full">
-      <label>Password</label>
+      <label className='mx-2'>Password</label>
       <input
         type="password"
-        className="p-2 rounded-xl"
+        className="p-2 rounded-xl mx-2"
         placeholder="Enter password"
         name="password"
         defaultValue={state.password}

@@ -5,6 +5,9 @@ import { LogOutIcon } from "lucide-react";
 
 export default function LogoutBtn() {
   function performLogout() {
+
+    localStorage.removeItem("chats");
+    
     fetch("/api/users/logout", {
       credentials: "include",
       method: "POST",

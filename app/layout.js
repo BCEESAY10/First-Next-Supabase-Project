@@ -21,9 +21,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <nav className="p-4 shadow bg-white text-black mb-4 flex justify-between items-center">
+        <nav className="p-4 shadow bg-white text-black mb-1 flex justify-between items-center sticky top-0">
           <span>
             {user ? user.firstName + " " + user.lastName : "To use our amazing chatbot, please sign up."}
+          </span>
+          <span className="text-blue-500 font-extrabold font-serif">
+            JULA-BOT
           </span>
           {user && (
             <>

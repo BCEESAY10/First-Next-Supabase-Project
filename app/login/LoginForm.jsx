@@ -47,10 +47,10 @@ export default function LoginForm(props) {
       </h3>
 
       <div className="grid gap-1 w-full">
-        <label>Email address</label>
+        <label className="mx-2">Email address</label>
         <input
           type="email"
-          className="p-2 rounded-xl"
+          className="p-2 rounded-xl mx-2"
           placeholder="Enter email"
           name="email"
           defaultValue={state.email}
@@ -59,10 +59,10 @@ export default function LoginForm(props) {
       </div>
 
       <div className="grid gap-1 w-full">
-        <label>Password</label>
+        <label className="mx-2">Password</label>
         <input
           type="password"
-          className="p-2 rounded-xl"
+          className="p-2 rounded-xl mx-2"
           placeholder="Enter password"
           name="password"
           defaultValue={state.password}

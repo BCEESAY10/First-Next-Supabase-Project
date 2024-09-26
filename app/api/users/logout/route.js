@@ -6,10 +6,10 @@ export async function POST(request ,response){
     cookies().delete("sid");
     revalidatePath("/", "layout")
 
-
-
     return NextResponse.json({
         message : "Thank You!"
     })
 
 }
+
+

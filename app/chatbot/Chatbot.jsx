@@ -63,6 +63,7 @@ export default function Chatbot() {
     }
   }, [])
 
+  // Save chats to localStorage when messages update
   useEffect(() => {
 
     if(mounted)
@@ -74,13 +75,13 @@ export default function Chatbot() {
   }, [messages])
 
   return (
-    <div className="max-w-[400px] w-full space-y-4 mx-auto mt-6 h-[calc(100svh-90px)] flex flex-col bg-gray-100 rounded-lg">
+    <div className="max-w-[400px] w-full space-y-4 mx-auto md:mt--12 mt-0 h-[calc(100svh-10px)] flex flex-col bg-gray-100 rounded-lg md:h-[calc(100vh-120px)]">
       <div className="flex-1 flex flex-col">
-        <div className="bg-slate-800 text-white p-4 text-center font-bold">
+        <div className="bg-slate-700 text-white p-4 text-center font-bold hidden md:block">
           Chatbot
         </div>
 
-        <div className=" block px-4 h-[550px] overflow-clip overflow-y-auto " ref={chatContainerRef}>
+        <div className="block px-4 h-[calc(100svh-100px)] md:h-[550px] overflow-clip overflow-y-auto" ref={chatContainerRef}>
           {messages.map((msg, index) => (
             <div
               key={index}
@@ -101,7 +102,7 @@ export default function Chatbot() {
         </div>
       </div>
 
-      <div className="bg-white p-4 flex items-center">
+      <div className="bg-white p-4 flex items-center sticky bottom-0">
         <input
           type="text"
           className="flex-1 border rounded-lg p-2 mr-2 focus:outline-none"
