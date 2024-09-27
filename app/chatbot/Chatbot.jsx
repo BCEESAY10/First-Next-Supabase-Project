@@ -1,8 +1,10 @@
 "use client";
-import React, { useEffect, useState, useRef} from "react";
-import { Send } from 'lucide-react';
+import React, { useEffect, useState, useRef } from "react";
+import { Send } from "lucide-react";
+import { analytics } from "./../api/firebase"; 
+import { logEvent } from "firebase/analytics";
 
-let mounted = false
+let mounted = false;
 
 export default function Chatbot() {
   const [messages, setMessages] = useState([]);
@@ -18,12 +20,17 @@ export default function Chatbot() {
   }, [messages]);
 
   async function handleSendMessage() {
-    if (input.trim()) {
+    if (input.trim() && !loading) {
+      // Track the event when the message is sent
+      logEvent(analytics, "chat_message_sent", {
+        message_length: input.length, 
+      });
+
       setMessages((prevMessages) => [
         ...prevMessages,
         { user: "You", text: input },
       ]);
-      setInput(""); 
+      setInput("");
       setLoading(true); // Set loading state for feedback
 
       try {
@@ -32,18 +39,16 @@ export default function Chatbot() {
           body: JSON.stringify({ prompt: input }),
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer GEMINI_API_KEY",   
+            "Authorization": "Bearer GEMINI_API_KEY",
           },
-        })
-
+        });
 
         const data = await response.json();
 
         setMessages((prevMessages) => [
           ...prevMessages,
-          { user: "Jula-Bot", text: data.message }, 
+          { user: "Jula-Bot", text: data.message },
         ]);
-        return  
       } catch (error) {
         console.error("Error fetching chatbot response:", error);
         setMessages((prevMessages) => [
@@ -57,27 +62,25 @@ export default function Chatbot() {
   }
 
   useEffect(() => {
-    const chats = localStorage.getItem("chats")
-    if(chats){
-        setMessages(JSON.parse(chats))
+    const chats = localStorage.getItem("chats");
+    if (chats) {
+      setMessages(JSON.parse(chats));
     }
-  }, [])
+  }, []);
 
   // Save chats to localStorage when messages update
   useEffect(() => {
+    if (mounted) localStorage.setItem("chats", JSON.stringify(messages));
 
-    if(mounted)
-     localStorage.setItem("chats", JSON.stringify(messages))
+    return () => {
+      mounted = true;
+    };
+  }, [messages]);
 
-     return ()=>{
-        mounted=true
-     }
-  }, [messages])
-
-   // Detect Enter key press and handle message sending on larger screens
-   const handleKeyDown = (e) => {
+  // Detect Enter key press and handle message sending on larger screens
+  const handleKeyDown = (e) => {
     const screenWidth = window.innerWidth;
-    if (e.key === "Enter" && screenWidth > 768) {
+    if (e.key === "Enter" && screenWidth > 768 && !loading) {
       handleSendMessage();
     }
   };
@@ -93,7 +96,7 @@ export default function Chatbot() {
           {messages.map((msg, index) => (
             <div
               key={index}
-              className={`line-clamp-5  my-2 ${
+              className={`line-clamp-5 my-2 ${
                 msg.user === "You" ? "text-right" : "text-left"
               }`}
             >
@@ -117,13 +120,13 @@ export default function Chatbot() {
           placeholder="Type a message..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown} // Listen for Enter key press
-          disabled={loading} 
+          onKeyDown={handleKeyDown} 
+          disabled={loading}
         />
         <button
           className="bg-blue-500 text-white px-4 py-2 rounded-lg"
           onClick={handleSendMessage}
-          disabled={loading} 
+          disabled={loading}
         >
           {loading ? "..." : <Send />}
         </button>
