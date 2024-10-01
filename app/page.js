@@ -17,11 +17,14 @@ export default function Home() {
 
       <ul className="justify-center mb-12 items-center flex gap-4 text-xl font-serif">
         <li>
-          <Link href={"/login"} className="hover:underline mx-5 bg-blue-200 p-2 rounded-lg">
+          <Link href={"/login"} className="hover:underline mx-5 bg-white text-blue-500 p-2 rounded-lg">
             Login
           </Link>
-          <Link href={"/signup"} className="hover:underline bg-blue-200 p-2 rounded-lg">
+          <Link href={"/signup"} className="hover:underline bg-white text-blue-500 p-2 rounded-lg">
             Signup
+          </Link>
+          <Link href={"/products"} className="hover:underline mx-5 bg-white text-blue-500 p-2 rounded-lg">
+            Shop Now
           </Link>
         </li>
       </ul>

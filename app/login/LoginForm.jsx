@@ -2,10 +2,20 @@
 
 import Link from "next/link";
 import React, { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm(props) {
   const [state, setState] = useState({});
   const formElement = useRef();
+  const [showPopup, setShowPopup] = useState(false);
+
+const loginMessage = () => {
+  setShowPopup(true); 
+  setTimeout(() => {
+    setShowPopup(false); 
+  }, 5000);
+};
+
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -16,10 +26,9 @@ export default function LoginForm(props) {
     try {
       if (form.checkValidity()) {
         await props.submitForm(state);
-        alert("Welcome!");
+         loginMessage()
         form.reset();
         setState({});
-
 
         const url = new URL(location.href)
         
@@ -48,13 +57,20 @@ export default function LoginForm(props) {
   }
 
   return (
+    <>
+         {showPopup && (
+      <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white py-2 px-4 rounded shadow-md">
+          Welcome
+      </div>
+    )}
+    
     <form
       ref={formElement}
       onSubmit={handleSubmit}
       className="max-w-[400px] w-full space-y-4 mx-auto mt-6 block"
     >
       <h3 className="font-semibold text-xl text-center border-b mb-4 p-2">
-        Welcome Back
+         Welcome
       </h3>
 
       <div className="grid gap-1 w-full">
@@ -98,6 +114,9 @@ export default function LoginForm(props) {
           Signup
         </Link>
       </p>
+
     </form>
+    </>
+ 
   );
 }

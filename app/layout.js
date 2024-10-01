@@ -1,4 +1,3 @@
-import localFont from "next/font/local";
 import "./globals.css";
 import { cookies } from "next/headers";
 import LogoutBtn from "./../components/LogoutBtn";

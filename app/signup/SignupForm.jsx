@@ -8,6 +8,14 @@ import React, { useRef, useState } from 'react';
 export default function SignUpForm (props){
   const [state, setState ] = useState({})
   const formElement = useRef()
+  const [showPopup, setShowPopup] = useState(false);
+
+const successMessage = () => {
+  setShowPopup(true); 
+  setTimeout(() => {
+    setShowPopup(false); 
+  }, 5000);
+};
 
   async function handleSubmit(event){
     event.preventDefault()
@@ -18,7 +26,7 @@ export default function SignUpForm (props){
     try {
       if (form.checkValidity()) {
         await props.submitForm(state)
-        alert("You have registered successfully.")
+        successMessage()
         form.reset()
         setState({})
       } else {
@@ -109,6 +117,14 @@ export default function SignUpForm (props){
 
       Already registered? <Link href="/login" className='hover:underline underline-offset-4 transition text-red-600'>Sign In</Link>
     </p>
+
+    {showPopup && (
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white py-2 px-4 rounded shadow-md">
+            Registered Successfully
+        </div>
+    )}
   </form>
+  
   )
+  
 }
