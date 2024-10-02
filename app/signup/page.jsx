@@ -3,7 +3,6 @@ import SignUpForm from "./SignupForm"
 import { cookies } from "next/headers";
 import {db} from "../../db"
 import {users} from "../../db/users"
-
 import bcrypt from "bcrypt"
 import { redirect } from 'next/navigation'
 

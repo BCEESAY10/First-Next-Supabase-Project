@@ -3,12 +3,14 @@
 
 import Link from 'next/link';
 import React, { useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 
 export default function SignUpForm (props){
   const [state, setState ] = useState({})
   const formElement = useRef()
   const [showPopup, setShowPopup] = useState(false);
+  const router = useRouter();
 
 const successMessage = () => {
   setShowPopup(true); 
@@ -29,6 +31,7 @@ const successMessage = () => {
         successMessage()
         form.reset()
         setState({})
+        router.push("/login")
       } else {
         alert("Invalid form-data")
         form.reportValidity()
