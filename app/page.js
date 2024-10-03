@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 export default function Home() {
 
   const logged_user = cookies().get("sid")?.value
-  
+
   if(logged_user) redirect  ("/chatbot")
 
   return (

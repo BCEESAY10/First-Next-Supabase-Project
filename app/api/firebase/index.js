@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics, logEvent } from "firebase/analytics";
+import { getAnalytics} from "firebase/analytics";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAXuVXb-T5N3tGfUhdZJEHnDwT5VtBNbqI",
@@ -13,17 +14,6 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const firebaseApp = initializeApp(firebaseConfig);
+export const firebaseApp = initializeApp(firebaseConfig);
+export const firestore = getFirestore(firebaseApp);
 export const analytics = getAnalytics(firebaseApp);
-
-// // Log custom events
-// function logCustomEvent(eventName, eventParams) {
-//     logEvent(analytics, eventName, eventParams);
-//   }
-
-// // When a user sends a message in the chatbot
-// logEvent(analytics, 'chat_message_sent', {
-//     message_length: input.length, 
-//     user_id: users.id,       
-//   });
-  

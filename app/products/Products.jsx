@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import React, { useState } from "react";
-import { analytics } from "./../api/firebase"; 
+import { analytics, firestore } from "./../api/firebase";
 import { logEvent } from "firebase/analytics";
-
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 let timeout;
 export default function Products() {
@@ -52,74 +52,99 @@ export default function Products() {
         "https://th.bing.com/th?id=OPHS.U4ndvwGDX%2baYRQ474C474&w=592&h=550&o=5&pid=21.1",
     },
     {
-        id: 6,
-        name: "Versace Eros EDT",
-        price: "D590.00",
-        image:
-          "https://th.bing.com/th?id=OPHS.Q2aYj3ses1QWEQ474C474&w=592&h=550&o=5&pid=21.1",
-      },
-      {
-        id: 6,
-        name: "Versace Dreamer 100ml",
-        price: "D1000.00",
-        image:
-          "https://th.bing.com/th/id/OIP.IgeITMWXE3Xatms9XW6NKwAAAA?rs=1&pid=ImgDetMain",
-      },
-      {
-        id: 6,
-        name: "Black & White Nike",
-        price: "D1050.00",
-        image:
-          "https://th.bing.com/th?id=OPHS.U4ndvwGDX%2baYRQ474C474&w=592&h=550&o=5&pid=21.1",
-      },
-      {
-        id: 6,
-        name: "Versace Bright Crystals",
-        price: "D1020.00",
-        image:
-          "https://luxplus.photos/files/uploads/products/45-versace-bright-crystal-30-ml-2015-10-16-big-2x.png",
-      },
-      {
-        id: 6,
-        name: "Apple iPhone 6",
-        price: "D12,050.00",
-        image:
-          "https://th.bing.com/th/id/R.c19a2424674773b9004fd298e3f7602c?rik=Jk%2b7unr6V4qUcQ&pid=ImgRaw&r=0",
-      },
-      {
-        id: 6,
-        name: "Apple iPhone 14",
-        price: "D17,000.00",
-        image:
-          "https://cdn.osxdaily.com/wp-content/uploads/2020/06/ios-14-iphone-widget-home-screen-redesign.jpg",
-      },
+      id: 6,
+      name: "Versace Eros EDT",
+      price: "D590.00",
+      image:
+        "https://th.bing.com/th?id=OPHS.Q2aYj3ses1QWEQ474C474&w=592&h=550&o=5&pid=21.1",
+    },
+    {
+      id: 6,
+      name: "Versace Dreamer",
+      price: "D1000.00",
+      image:
+        "https://th.bing.com/th/id/OIP.IgeITMWXE3Xatms9XW6NKwAAAA?rs=1&pid=ImgDetMain",
+    },
+    {
+      id: 6,
+      name: "Black & White Nike",
+      price: "D1050.00",
+      image:
+        "https://th.bing.com/th?id=OPHS.U4ndvwGDX%2baYRQ474C474&w=592&h=550&o=5&pid=21.1",
+    },
+    {
+      id: 6,
+      name: "Versace Bright Crystal",
+      price: "D1020.00",
+      image:
+        "https://luxplus.photos/files/uploads/products/45-versace-bright-crystal-30-ml-2015-10-16-big-2x.png",
+    },
+    {
+      id: 6,
+      name: "Apple iPhone 6",
+      price: "D12,050.00",
+      image:
+        "https://th.bing.com/th/id/R.c19a2424674773b9004fd298e3f7602c?rik=Jk%2b7unr6V4qUcQ&pid=ImgRaw&r=0",
+    },
+    {
+      id: 6,
+      name: "Apple iPhone 14",
+      price: "D17,000.00",
+      image:
+        "https://cdn.osxdaily.com/wp-content/uploads/2020/06/ios-14-iphone-widget-home-screen-redesign.jpg",
+    },
   ];
 
   const [showPopup, setShowPopup] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState(products);
 
+  const buyProduct = async (product) => {
+    try {
+      setShowPopup(true);
 
-  const buyProduct = (product) => {
-    setShowPopup(true);
-    logEvent(analytics, "Product bought", {
-      product_name: product.name,
-      product_price: product.price,
-    });
-    setTimeout(() => {
-      setShowPopup(false);
-    }, 5000);
+      logEvent(analytics, "Product bought", {
+        product_name: product.name,
+        product_price: product.price,
+      });
+
+      const productRef = doc(firestore, "products", product.id);
+      const productDoc = await getDoc(productRef);
+
+      if (productDoc.exists()) {
+        const currentCount = productDoc.data().purchaseCount || 0;
+
+        await updateDoc(productRef, {
+          purchaseCount: currentCount + 1,
+        });
+
+        if (currentCount + 1 >= 5) {
+          console.log(
+            `${product.name} has been bought 5 times! Add to recommended products.`
+          );
+          // Additional logic to add the product to "Recommended Products" can go here
+        }
+      } else {
+        console.error("Product not found in Firestore.");
+      }
+
+      setTimeout(() => {
+        setShowPopup(false);
+      }, 5000);
+    } catch (error) {
+      console.error("Error buying product:", error);
+    }
   };
 
   const handleSearch = (msg) => {
-    logEvent(analytics, 'search_product', {
+    logEvent(analytics, "search_product", {
       search_term: msg,
     });
 
-      const filteredProducts = products.filter((product) =>
-        product.name.toLowerCase().includes(msg.toLowerCase())
-      );
-      setFilter(filteredProducts)
+    const filteredProducts = products.filter((product) =>
+      product.name.toLowerCase().includes(msg.toLowerCase())
+    );
+    setFilter(filteredProducts);
   };
 
   function debounce(msg) {
@@ -130,7 +155,14 @@ export default function Products() {
   return (
     <div className="container mx-auto p-4">
       <ul className="justify-center mb-12 items-center flex gap-4 text-xl font-serif">
+
         <li>
+            <Link
+            href={"/recommendation"}
+            className="hover:underline mr-2 bg-white text-blue-500 border-blue-500 p-2 rounded-lg"
+            >
+            Recommended Products
+            </Link>
           <Link
             href={"/"}
             className="hover:underline bg-white text-blue-500 border-blue-500 p-2 rounded-lg"
@@ -161,13 +193,11 @@ export default function Products() {
           type="text"
           placeholder="Search for products..."
           className="w-full p-2 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-blue-500"
-          
           onInput={(e) => {
-            setSearchTerm(e.target.value)
-            debounce(e.target.value)
+            setSearchTerm(e.target.value);
+            debounce(e.target.value);
           }}
         />
-        
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

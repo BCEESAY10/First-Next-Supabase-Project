@@ -22,19 +22,19 @@ export default function LoginForm(props) {
 
         setShowPopup(true);
 
-        // Hide the popup after 5 seconds and redirect
-        setTimeout(() => {
-          setShowPopup(false);
+        // // Hide the popup after 5 seconds and redirect
+        // setTimeout(() => {
+        //   setShowPopup(false);
 
-          // Redirect the user after the popup is hidden
-          const url = new URL(location.href);
-          if (url.searchParams.has("next")) {
-            const nextPath = url.searchParams.get("next");
-            router.push(nextPath); 
-          } else {
-            router.push("/"); 
-          }
-        }, 60_000);
+        //   // Redirect the user after the popup is hidden
+        //   const url = new URL(location.href);
+        //   if (url.searchParams.has("next")) {
+        //     const nextPath = url.searchParams.get("next");
+        //     router.push(nextPath); 
+        //   } else {
+        //     router.push("/"); 
+        //   }
+        // }, 60_000);
         
         form.reset();
         setState({});
